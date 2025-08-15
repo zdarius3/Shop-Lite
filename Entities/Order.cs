@@ -22,7 +22,7 @@ namespace ShopLite.Entities
         [Required]
         public Status Status { get; set; } = Status.Pending;
 
-        public ICollection<OrderItem>? OrderItems { get; set; }
+        public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 
     }
 
