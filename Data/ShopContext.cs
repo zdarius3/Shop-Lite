@@ -9,11 +9,11 @@ namespace ShopLite.Data
         {
         }
 
-        public DbSet<Order> Orders { get; set; } = null!;
-        public DbSet<OrderItem> OrderItems { get; set; } = null!;
-        public DbSet<Customer> Customers { get; set; } = null!;
-        public DbSet<Category> Categories { get; set; } = null!;
-        public DbSet<Product> Products { get; set; } = null!;
+        public DbSet<Order> Orders => Set<Order>();
+        public DbSet<OrderItem> OrderItems => Set<OrderItem>();
+        public DbSet<Customer> Customers => Set<Customer>();
+        public DbSet<Category> Categories => Set<Category>();
+        public DbSet<Product> Products  => Set<Product>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
