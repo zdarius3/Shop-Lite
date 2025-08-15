@@ -20,7 +20,7 @@ namespace ShopLite.Entities
         public DateTime OrderDate { get; set; }
 
         [Required]
-        public Status status { get; set; } = Status.Pending;
+        public Status Status { get; set; } = Status.Pending;
 
         public ICollection<OrderItem>? OrderItems { get; set; }
 
