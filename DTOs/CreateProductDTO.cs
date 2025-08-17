@@ -13,6 +13,10 @@ namespace ShopLite.DTOs
         public string? Description { get; init; }
 
         [Required]
+        [Range(0, int.MaxValue, ErrorMessage = "Stock must be a non-negative integer.")]
+        public int Stock { get; init; }
+
+        [Required]
         [Range(0.01, double.MaxValue, ErrorMessage = "Price must be greater than zero.")]
         public decimal Price { get; init; }
 
