@@ -18,6 +18,10 @@ namespace ShopLite.Entities
         public string? Description { get; set; }
 
         [Required]
+        [Range(0, int.MaxValue, ErrorMessage = "Stock must be a non-negative integer.")]
+        public int Stock { get; set; }
+
+        [Required]
         public decimal Price { get; set; }
 
         [Required]

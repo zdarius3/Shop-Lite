@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using ShopLite.Data;
+using ShopLite.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,8 +21,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-
+app.UseMiddleware<GlobalErrorHandlerMiddleware>();
 
 app.Run();
 
