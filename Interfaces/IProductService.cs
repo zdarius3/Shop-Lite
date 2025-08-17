@@ -1,3 +1,4 @@
+using ShopLite.DTOs;
 using ShopLite.Entities;
 
 namespace ShopLite.Interfaces
@@ -5,10 +6,10 @@ namespace ShopLite.Interfaces
 
     public interface IProductService
     {
-        Task<IEnumerable<Product>> GetAllProductsAsync();
-        Task<Product?> GetProductByIdAsync(int id);
-        Task AddProductAsync(Product product);
-        Task UpdateProductAsync(Product product);
+        Task<IEnumerable<ProductDTO>> GetAllProductsAsync();
+        Task<ProductDTO?> GetProductByIdAsync(int id);
+        Task AddProductAsync(CreateProductDTO cProductDTO);
+        Task UpdateProductAsync(UpdateProductDTO uProductDTO);
         Task DeleteProductAsync(int id);
 
         bool IsProductAvailable(int productId, int requiredQuantity);

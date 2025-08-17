@@ -1,13 +1,15 @@
+using ShopLite.DTOs;
 using ShopLite.Entities;
 
 namespace ShopLite.Interfaces
 {
     public interface IOrderItemService
     {
-        Task<IEnumerable<OrderItem>> GetAllOrderItemsAsync();
+        Task<IEnumerable<OrderItemDTO>> GetAllOrderItemsAsync();
         Task<OrderItem?> GetOrderItemByIdAsync(int id);
-        Task AddOrderItemAsync(OrderItem OrderItem);
-        Task UpdateOrderItemAsync(OrderItem OrderItem);
+        Task AddOrderItemAsync(CreateOrderItemDTO cOrderItemDTO);
+
+        //can't update an OrderItem after its created
         Task DeleteOrderItemAsync(int id);
 
         Task<bool> ApplyDiscountToOrderItemAsync(int OrderItemId, decimal discountPercentage);
