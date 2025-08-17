@@ -1,16 +1,17 @@
+using ShopLite.DTOs;
 using ShopLite.Entities;
 
 namespace ShopLite.Interfaces
 {
     public interface IOrderService
     {
-        Task<IEnumerable<Order>> GetAllOrdersAsync();
-        Task<Order?> GetOrderByIdAsync(int id);
-        Task AddOrderAsync(Order order);
-        Task UpdateOrderAsync(Order order);
+        Task<IEnumerable<OrderDTO>> GetAllOrdersAsync();
+        Task<OrderDTO?> GetOrderByIdAsync(int id);
+        Task AddOrderAsync(CreateOrderDTO cOrderDTO);
+        Task UpdateOrderAsync(UpdateOrderDTO uOrderDTO);
         Task DeleteOrderAsync(int id);
 
-        Task<bool> AddProductToOrderAsync(Product product, int quantity, int orderId);
+        Task<bool> AddProductToOrderAsync(CreateProductDTO product, int quantity, int orderId);
         Task<bool> RemoveProductFromOrderAsync(int productId, int orderId);
         Task<decimal> CalculateOrderTotalAsync(int orderId);
     }
