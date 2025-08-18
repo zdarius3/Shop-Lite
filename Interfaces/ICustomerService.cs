@@ -6,15 +6,15 @@ namespace ShopLite.Interfaces
     public interface ICustomerService
     {
         Task<IEnumerable<CustomerDTO>> GetAllCustomersAsync();
-        Task<Customer?> GetCustomerByIdAsync(int id);
-        Task AddCustomerAsync(Customer customer);
-        Task UpdateCustomerAsync(Customer customer);
+        Task<CustomerDTO?> GetCustomerByIdAsync(int id);
+        Task AddCustomerAsync(CreateCustomerDTO cCustomerDTO);
+        Task UpdateCustomerAsync(UpdateCustomerDTO uCustomerDTO);
         Task DeleteCustomerAsync(int id);
 
 
-        Task<Customer> GetCustomerByEmailAsync(string email);
+        Task<CustomerDTO> GetCustomerByEmailAsync(string email);
 
-        Task<IEnumerable<Customer>> GetCustomerCustomersIdAsync(int customerId);
+        Task<IEnumerable<OrderDTO>> GetCustomerOrdersIdAsync(int customerId);
         
         Task<decimal> GetCustomerTotalSpentAsync(int customerId);
 
