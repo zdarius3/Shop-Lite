@@ -10,5 +10,6 @@ namespace ShopLite.DTOs
         public string Email { get; init; } = null!;
         public string Address { get; init; } = null!;
 
+        public List<OrderDTO>? Orders { get; init; } = new List<OrderDTO>();
     }
 }
