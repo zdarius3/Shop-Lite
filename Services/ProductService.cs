@@ -44,7 +44,7 @@ namespace ShopLite.Services
 
         public async Task AddProductAsync(CreateProductDTO cProductDTO)
         {
-            if (!IsProductNameUnique(cProductDTO.Name))
+            if (await IsProductNameUnique(cProductDTO.Name) == false)
             {
                 throw new InvalidOperationException($"Product name '{cProductDTO.Name}' already exists.");
             }
@@ -70,7 +70,7 @@ namespace ShopLite.Services
                 throw new KeyNotFoundException($"Product with ID {uProductDTO.Id} not found.");
             }
 
-            if (uProductDTO.Name != null && !IsProductNameUnique(uProductDTO.Name))
+            if (uProductDTO.Name != null && (await IsProductNameUnique(uProductDTO.Name) == false))
             {
                 throw new InvalidOperationException($"Product name '{uProductDTO.Name}' already exists.");
             }
@@ -118,9 +118,9 @@ namespace ShopLite.Services
         }
 
 
-        public bool IsProductAvailable(int productId, int requiredQuantity)
+        public async Task<bool> IsProductAvailable(int productId, int requiredQuantity)
         {
-            var product = _productRepository.GetProductByIdAsync(productId).Result;
+            var product = await _productRepository.GetProductByIdAsync(productId);
             if (product == null)
             {
                 throw new KeyNotFoundException($"Product with ID {productId} not found.");
@@ -134,9 +134,9 @@ namespace ShopLite.Services
             return true;
         }
 
-        public bool IsProductNameUnique(string productName)
+        public async Task<bool> IsProductNameUnique(string productName)
         {
-            var products = _productRepository.GetAllProductsAsync().Result;
+            var products = await _productRepository.GetAllProductsAsync();
             return !products.Any(p =>
                 p.Name.Equals(productName, StringComparison.OrdinalIgnoreCase));
         }

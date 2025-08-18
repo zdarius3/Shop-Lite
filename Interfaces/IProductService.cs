@@ -12,7 +12,7 @@ namespace ShopLite.Interfaces
         Task UpdateProductAsync(UpdateProductDTO uProductDTO);
         Task DeleteProductAsync(int id);
 
-        bool IsProductAvailable(int productId, int requiredQuantity);
-        bool IsProductNameUnique(string productName);
+        Task<bool> IsProductAvailable(int productId, int requiredQuantity);
+        Task<bool> IsProductNameUnique(string productName);
     }
 }
