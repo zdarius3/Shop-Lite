@@ -36,14 +36,10 @@ namespace ShopLite.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteOrderItemAsync(int id)
+        public async Task DeleteOrderItemAsync(OrderItem orderItem)
         {
-            var orderItem = await _context.OrderItems.FindAsync(id);
-            if (orderItem != null)
-            {
-                _context.OrderItems.Remove(orderItem);
-                await _context.SaveChangesAsync();
-            }
+            _context.OrderItems.Remove(orderItem);
+            await _context.SaveChangesAsync();
         }
     }
 }
