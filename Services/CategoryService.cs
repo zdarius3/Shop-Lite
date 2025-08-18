@@ -55,7 +55,7 @@ namespace ShopLite.Services
             };
         }
 
-        public async Task AddCategoryAsync(CreateCategoryDTO cCategoryDTO)
+        public async Task<CategoryDTO> AddCategoryAsync(CreateCategoryDTO cCategoryDTO)
         {
             if (await IsCategoryNameUnique(cCategoryDTO.Name) == false)
             {
@@ -68,9 +68,15 @@ namespace ShopLite.Services
             };
 
             await _categoryRepo.AddCategoryAsync(category);
+            return new CategoryDTO
+            {
+                Id = category.Id,
+                Name = category.Name,
+                Products = new List<ProductDTO>()
+            };
         }
 
-        public async Task UpdateCategoryAsync(UpdateCategoryDTO uCategoryDTO)
+        public async Task<CategoryDTO> UpdateCategoryAsync(UpdateCategoryDTO uCategoryDTO)
         {
             var category = await _categoryRepo.GetCategoryByIdAsync(uCategoryDTO.Id);
             if (category == null)
@@ -86,6 +92,19 @@ namespace ShopLite.Services
             category.Name = uCategoryDTO.Name ?? category.Name;
 
             await _categoryRepo.UpdateCategoryAsync(category);
+            return new CategoryDTO
+            {
+                Id = category.Id,
+                Name = category.Name,
+                Products = category.Products?
+                    .Select(p => new ProductDTO
+                    {
+                        Id = p.Id,
+                        Name = p.Name,
+                        Price = p.Price,
+                        CategoryId = p.CategoryId
+                    }).ToList() ?? new List<ProductDTO>()
+            };
         }
 
         public async Task DeleteCategoryAsync(int id)
