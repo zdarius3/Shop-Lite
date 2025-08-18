@@ -42,7 +42,7 @@ namespace ShopLite.Services
             };
         }
 
-        public async Task AddProductAsync(CreateProductDTO cProductDTO)
+        public async Task<ProductDTO> AddProductAsync(CreateProductDTO cProductDTO)
         {
             if (await IsProductNameUnique(cProductDTO.Name) == false)
             {
@@ -60,9 +60,16 @@ namespace ShopLite.Services
             };
 
             await _productRepository.AddProductAsync(product);
+            return new ProductDTO
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Price = product.Price,
+                CategoryId = product.CategoryId
+            };
         }
 
-        public async Task UpdateProductAsync(UpdateProductDTO uProductDTO)
+        public async Task<ProductDTO> UpdateProductAsync(UpdateProductDTO uProductDTO)
         {
             var product = await _productRepository.GetProductByIdAsync(uProductDTO.Id);
             if (product == null)
@@ -79,7 +86,7 @@ namespace ShopLite.Services
             {
                 product.Name = uProductDTO.Name;
             }
-    
+
             if (uProductDTO.Description != null)
             {
                 product.Description = uProductDTO.Description;
@@ -104,6 +111,13 @@ namespace ShopLite.Services
             }
 
             await _productRepository.UpdateProductAsync(product);
+            return new ProductDTO
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Price = product.Price,
+                CategoryId = product.CategoryId
+            };
         }
 
         public async Task DeleteProductAsync(int id)

@@ -8,8 +8,8 @@ namespace ShopLite.Interfaces
     {
         Task<IEnumerable<ProductDTO>> GetAllProductsAsync();
         Task<ProductDTO?> GetProductByIdAsync(int id);
-        Task AddProductAsync(CreateProductDTO cProductDTO);
-        Task UpdateProductAsync(UpdateProductDTO uProductDTO);
+        Task<ProductDTO> AddProductAsync(CreateProductDTO cProductDTO);
+        Task<ProductDTO> UpdateProductAsync(UpdateProductDTO uProductDTO);
         Task DeleteProductAsync(int id);
 
         Task<bool> IsProductAvailable(int productId, int requiredQuantity);
