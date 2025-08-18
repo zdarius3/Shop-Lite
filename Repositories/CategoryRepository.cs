@@ -36,14 +36,10 @@ namespace ShopLite.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteCategoryAsync(int id)
+        public async Task DeleteCategoryAsync(Category category)
         {
-            var category = await GetCategoryByIdAsync(id);
-            if (category != null)
-            {
-                _context.Categories.Remove(category);
-                await _context.SaveChangesAsync();
-            }
+            _context.Categories.Remove(category);
+            await _context.SaveChangesAsync();
         }
     }
 }
