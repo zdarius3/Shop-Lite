@@ -114,7 +114,7 @@ namespace ShopLite.Services
                 throw new KeyNotFoundException($"Product with ID {id} not found.");
             }
 
-            await _productRepository.DeleteProductAsync(id);
+            await _productRepository.DeleteProductAsync(product);
         }
 
 
