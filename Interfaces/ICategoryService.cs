@@ -11,8 +11,8 @@ namespace ShopLite.Interfaces
         Task UpdateCategoryAsync(UpdateCategoryDTO uCategoryDTO);
         Task DeleteCategoryAsync(int id);
 
-        bool IsCategoryNameUnique(string categoryName);
-        Task<IEnumerable<Product>> GetProductsByCategoryIdAsync(int categoryId);
+        Task<bool> IsCategoryNameUnique(string categoryName);
+        Task<IEnumerable<ProductDTO>> GetProductsByCategoryIdAsync(int categoryId);
 
     }
 }
