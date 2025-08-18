@@ -8,6 +8,6 @@ namespace ShopLite.Interfaces
         Task<Customer?> GetCustomerByIdAsync(int id);
         Task AddCustomerAsync(Customer customer);
         Task UpdateCustomerAsync(Customer customer);
-        Task DeleteCustomerAsync(int id);
+        Task DeleteCustomerAsync(Customer customer);
     }
 }
