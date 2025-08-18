@@ -41,5 +41,17 @@ namespace ShopLite.Repositories
             _context.Customers.Remove(customer);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<Customer?> GetCustomerByEmailAsync(string email)
+        {
+            return await _context.Customers.FirstOrDefaultAsync(c => c.Email == email);
+        }
+
+        public async Task<IEnumerable<Order>> GetCustomerOrdersByIdAsync(int customerId)
+        {
+            return await _context.Orders
+                .Where(o => o.CustomerId == customerId)
+                .ToListAsync();
+        }
     }
 }

@@ -14,7 +14,7 @@ namespace ShopLite.Interfaces
 
         Task<CustomerDTO> GetCustomerByEmailAsync(string email);
 
-        Task<IEnumerable<OrderDTO>> GetCustomerOrdersIdAsync(int customerId);
+        Task<IEnumerable<OrderDTO>> GetCustomerOrdersByIdAsync(int customerId);
         
         Task<decimal> GetCustomerTotalSpentAsync(int customerId);
 

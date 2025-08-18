@@ -1,3 +1,4 @@
+using ShopLite.DTOs;
 using ShopLite.Entities;
 
 namespace ShopLite.Interfaces
@@ -9,5 +10,8 @@ namespace ShopLite.Interfaces
         Task AddCustomerAsync(Customer customer);
         Task UpdateCustomerAsync(Customer customer);
         Task DeleteCustomerAsync(Customer customer);
+
+        Task<Customer?> GetCustomerByEmailAsync(string email);
+        Task<IEnumerable<Order>> GetCustomerOrdersByIdAsync(int customerId);
     }
 }
