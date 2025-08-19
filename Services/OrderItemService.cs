@@ -44,7 +44,7 @@ namespace ShopLite.Services
             };
         }
 
-        public async Task AddOrderItemAsync(CreateOrderItemDTO cOrderItemDTO)
+        public async Task<OrderItemDTO> AddOrderItemAsync(CreateOrderItemDTO cOrderItemDTO)
         {
             var order = await _orderRepo.GetOrderByIdAsync(cOrderItemDTO.OrderId);
             if (order == null)
@@ -61,6 +61,16 @@ namespace ShopLite.Services
 
             await _orderItemRepo.AddOrderItemAsync(orderItem);
             order.OrderItems.Add(orderItem);
+            
+            return new OrderItemDTO
+            {
+                Id = orderItem.Id,
+                OrderId = orderItem.OrderId,
+                ProductId = orderItem.ProductId,
+                ProductName = orderItem.Product.Name,
+                Quantity = orderItem.Quantity,
+                UnitPrice = orderItem.UnitPrice
+            };
         }
 
         public async Task DeleteOrderItemAsync(int id)
