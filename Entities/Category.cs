@@ -14,6 +14,6 @@ namespace ShopLite.Entities
         [MaxLength(50)]
         public string Name { get; set; } = null!;
 
-        public ICollection<Product>? Products { get; set; }
+        public List<Product> Products { get; set; } = new List<Product>();
     }
 }
