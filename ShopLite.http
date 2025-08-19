@@ -1,11 +1,8 @@
 @ShopLite_HostAddress = http://localhost:5294
 
-GET {{ShopLite_HostAddress}}/weatherforecast/
-Accept: application/json
-
 ###
 ### Create a new category
-POST http://localhost:5000/api/Category
+POST {{ShopLite_HostAddress}}/api/category
 Content-Type: application/json
 
 {
@@ -14,10 +11,10 @@ Content-Type: application/json
 }
 
 ### Get all categories
-GET http://localhost:5000/api/Category
+GET http://localhost:7114/api/Category
 
 ### Create a new product (after creating a category, use its ID)
-POST http://localhost:5000/api/Product
+POST http://localhost:7114/api/Product
 Content-Type: application/json
 
 {
@@ -28,10 +25,10 @@ Content-Type: application/json
 }
 
 ### Get all products
-GET http://localhost:5000/api/Product
+GET http://localhost:7114/api/Product
 
 ### Update a category
-PUT http://localhost:5000/api/Category
+PUT http://localhost:7114/api/Category
 Content-Type: application/json
 
 {
@@ -41,7 +38,7 @@ Content-Type: application/json
 }
 
 ### Update a product
-PUT http://localhost:5000/api/Product
+PUT http://localhost:7114/api/Product
 Content-Type: application/json
 
 {
@@ -53,7 +50,7 @@ Content-Type: application/json
 }
 
 ### Delete a product
-DELETE http://localhost:5000/api/Product/1
+DELETE http://localhost:7114/api/Product/1
 
 ### Delete a category
-DELETE http://localhost:5000/api/Category/1
+DELETE http://localhost:7114/api/Category/1
