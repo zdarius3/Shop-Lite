@@ -7,9 +7,9 @@ namespace ShopLite.Services
 {
     public class CategoryService : ICategoryService
     {
-        private readonly CategoryRepository _categoryRepo;
+        private readonly ICategoryRepository _categoryRepo;
 
-        public CategoryService(CategoryRepository categoryRepo)
+        public CategoryService(ICategoryRepository categoryRepo)
         {
             _categoryRepo = categoryRepo;
         }

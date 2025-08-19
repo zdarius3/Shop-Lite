@@ -7,10 +7,10 @@ namespace ShopLite.Services
 {
     public class OrderItemService : IOrderItemService
     {
-        private readonly OrderItemRepository _orderItemRepo;
-        private readonly OrderRepository _orderRepo;
+        private readonly IOrderItemRepository _orderItemRepo;
+        private readonly IOrderRepository _orderRepo;
 
-        public OrderItemService(OrderItemRepository orderItemRepo, OrderRepository orderRepo)
+        public OrderItemService(IOrderItemRepository orderItemRepo, IOrderRepository orderRepo)
         {
             _orderRepo = orderRepo;
             _orderItemRepo = orderItemRepo;
