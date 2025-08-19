@@ -16,12 +16,16 @@ namespace ShopLite.Repositories
 
         public async Task<IEnumerable<OrderItem>> GetAllOrderItemsAsync()
         {
-            return await _context.OrderItems.ToListAsync();
+            return await _context.OrderItems
+                                    .Include(oi => oi.Product)
+                                    .ToListAsync();
         }
 
         public async Task<OrderItem?> GetOrderItemByIdAsync(int id)
         {
-            return await _context.OrderItems.FindAsync(id);
+            return await _context.OrderItems
+                                    .Include(oi => oi.Product)
+                                    .FirstOrDefaultAsync(oi => oi.Id == id);
         }
 
         public async Task AddOrderItemAsync(OrderItem orderItem)
