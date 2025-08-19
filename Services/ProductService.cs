@@ -19,12 +19,15 @@ namespace ShopLite.Services
         public async Task<IEnumerable<ProductDTO>> GetAllProductsAsync()
         {
             var products = await _productRepository.GetAllProductsAsync();
-            return products.Select(p => new ProductDTO
+            return (IEnumerable<ProductDTO>)products.Select(p => new ProductDTO
             {
                 Id = p.Id,
                 Name = p.Name,
+                Description = p.Description,
                 Price = p.Price,
-                CategoryId = p.CategoryId
+                Stock = p.Stock,
+                CategoryId = p.CategoryId,
+                CategoryName = p.Category.Name
             });
         }
 
@@ -40,6 +43,7 @@ namespace ShopLite.Services
             {
                 Id = product.Id,
                 Name = product.Name,
+                Stock = product.Stock,
                 Price = product.Price,
                 CategoryId = product.CategoryId
             };
@@ -52,7 +56,12 @@ namespace ShopLite.Services
                 throw new InvalidOperationException($"Product name '{cProductDTO.Name}' already exists.");
             }
 
-            var category = await _categoryRepository.GetCategoryByIdAsync(cProductDTO.CategoryId); 
+            var category = await _categoryRepository.GetCategoryByIdAsync(cProductDTO.CategoryId);
+            if (category == null)
+            {
+                throw new KeyNotFoundException($"Category with ID {cProductDTO.CategoryId} not found.");
+            }
+            
             var product = new Product
             {
                 Name = cProductDTO.Name,
@@ -64,13 +73,14 @@ namespace ShopLite.Services
             };
 
             await _categoryRepository.AddProductToCategoryAsync(product.CategoryId, product);
-            await _productRepository.AddProductAsync(product);
+            //await _productRepository.AddProductAsync(product);
 
             return new ProductDTO
             {
                 Id = product.Id,
                 Name = product.Name,
                 Description = product.Description,
+                Stock = product.Stock,
                 Price = product.Price,
                 CategoryId = product.CategoryId,
                 CategoryName = category.Name
@@ -136,6 +146,7 @@ namespace ShopLite.Services
                 Id = product.Id,
                 Name = product.Name,
                 Price = product.Price,
+                Stock = product.Stock,
                 CategoryId = product.CategoryId,
                 CategoryName = newCategoryName.Equals("") ? oldCategoryName : newCategoryName
             };
