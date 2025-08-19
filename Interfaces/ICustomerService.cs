@@ -7,8 +7,8 @@ namespace ShopLite.Interfaces
     {
         Task<IEnumerable<CustomerDTO>> GetAllCustomersAsync();
         Task<CustomerDTO?> GetCustomerByIdAsync(int id);
-        Task AddCustomerAsync(CreateCustomerDTO cCustomerDTO);
-        Task UpdateCustomerAsync(UpdateCustomerDTO uCustomerDTO);
+        Task<CustomerDTO> AddCustomerAsync(CreateCustomerDTO cCustomerDTO);
+        Task<CustomerDTO> UpdateCustomerAsync(UpdateCustomerDTO uCustomerDTO);
         Task DeleteCustomerAsync(int id);
 
 

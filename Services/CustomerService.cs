@@ -43,7 +43,7 @@ namespace ShopLite.Services
             };
         }
 
-        public async Task AddCustomerAsync(CreateCustomerDTO cCustomerDTO)
+        public async Task<CustomerDTO> AddCustomerAsync(CreateCustomerDTO cCustomerDTO)
         {
             var customer = new Customer
             {
@@ -53,9 +53,16 @@ namespace ShopLite.Services
             };
 
             await _customerRepo.AddCustomerAsync(customer);
+            return new CustomerDTO
+            {
+                Id = customer.Id,
+                FullName = customer.FullName,
+                Address = customer.Address,
+                Email = customer.Email
+            };
         }
 
-        public async Task UpdateCustomerAsync(UpdateCustomerDTO uCustomerDTO)
+        public async Task<CustomerDTO> UpdateCustomerAsync(UpdateCustomerDTO uCustomerDTO)
         {
             var customer = await _customerRepo.GetCustomerByIdAsync(uCustomerDTO.Id);
             if (customer == null)
@@ -77,6 +84,13 @@ namespace ShopLite.Services
             }
 
             await _customerRepo.UpdateCustomerAsync(customer);
+            return new CustomerDTO
+            {
+                Id = customer.Id,
+                FullName = customer.FullName,
+                Address = customer.Address,
+                Email = customer.Email
+            };
         }
 
         public async Task DeleteCustomerAsync(int id)
