@@ -51,6 +51,9 @@ namespace ShopLite.Repositories
         {
             return await _context.Orders
                 .Where(o => o.CustomerId == customerId)
+                .Include(o => o.OrderItems)
+                //include OrderItems and their product for correct assignation later
+                    .ThenInclude(oi => oi.Product)
                 .ToListAsync();
         }
     }
