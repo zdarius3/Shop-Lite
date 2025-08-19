@@ -4,3 +4,56 @@ GET {{ShopLite_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+### Create a new category
+POST http://localhost:5000/api/Category
+Content-Type: application/json
+
+{
+  "name": "Electronics",
+  "description": "Electronic devices and gadgets"
+}
+
+### Get all categories
+GET http://localhost:5000/api/Category
+
+### Create a new product (after creating a category, use its ID)
+POST http://localhost:5000/api/Product
+Content-Type: application/json
+
+{
+  "name": "Smartphone",
+  "description": "Latest model smartphone",
+  "price": 499.99,
+  "categoryId": 1
+}
+
+### Get all products
+GET http://localhost:5000/api/Product
+
+### Update a category
+PUT http://localhost:5000/api/Category
+Content-Type: application/json
+
+{
+  "id": 1,
+  "name": "Updated Electronics",
+  "description": "Updated description"
+}
+
+### Update a product
+PUT http://localhost:5000/api/Product
+Content-Type: application/json
+
+{
+  "id": 1,
+  "name": "Updated Smartphone",
+  "description": "Updated model",
+  "price": 599.99,
+  "categoryId": 1
+}
+
+### Delete a product
+DELETE http://localhost:5000/api/Product/1
+
+### Delete a category
+DELETE http://localhost:5000/api/Category/1
