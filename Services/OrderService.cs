@@ -140,46 +140,6 @@ namespace ShopLite.Services
             await _orderRepository.DeleteOrderAsync(order);
         }
 
-        public async Task<bool> AddProductToOrderAsync(int orderId, CreateOrderItemDTO cOrderItemDTO)
-        {
-            var order = await _orderRepository.GetOrderByIdAsync(orderId);
-            if (order == null)
-            {
-                throw new KeyNotFoundException($"Order with ID {orderId} not found.");
-            }
-
-            var orderItem = new OrderItem
-            {
-                ProductId = cOrderItemDTO.ProductId,
-                Quantity = cOrderItemDTO.Quantity,
-                UnitPrice = cOrderItemDTO.UnitPrice
-            };
-
-            order.OrderItems.Add(orderItem);
-            await _orderRepository.UpdateOrderAsync(order);
-            return true;
-        }
-
-        public async Task<bool> DeleteProductFromOrderAsync(int productId, int orderId)
-        {
-            var order = await _orderRepository.GetOrderByIdAsync(orderId);
-            if (order == null)
-            {
-                throw new KeyNotFoundException($"Order with ID {orderId} not found.");
-            }
-
-            var orderItem = order.OrderItems.FirstOrDefault(oi => oi.ProductId == productId);
-            if (orderItem == null)
-            {
-                throw new KeyNotFoundException($"Product with ID {productId} not " +
-                    $"found in Order with ID {orderId}'s Order Items.");
-            }
-
-            order.OrderItems.Remove(orderItem);
-            await _orderRepository.UpdateOrderAsync(order);
-            return true;
-        }
-
         public async Task<bool> AddOrderItemToOrderAsync(int orderId, CreateOrderItemDTO orderItemDTO)
         {
             var order = await _orderRepository.GetOrderByIdAsync(orderId);
@@ -190,6 +150,8 @@ namespace ShopLite.Services
 
             var orderItem = new OrderItem
             {
+                OrderId = orderId,
+                Order = order,
                 ProductId = orderItemDTO.ProductId,
                 Quantity = orderItemDTO.Quantity,
                 UnitPrice = orderItemDTO.UnitPrice

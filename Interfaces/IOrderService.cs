@@ -11,9 +11,6 @@ namespace ShopLite.Interfaces
         Task<OrderDTO> UpdateOrderAsync(UpdateOrderDTO uOrderDTO);
         Task DeleteOrderAsync(int id);
 
-        Task<bool> AddProductToOrderAsync(int orderId, CreateOrderItemDTO orderItemDTO);
-        Task<bool> DeleteProductFromOrderAsync(int productId, int orderId);
-
         Task<bool> AddOrderItemToOrderAsync(int orderId, CreateOrderItemDTO orderItemDTO);
         Task<bool> DeleteOrderItemFromOrderAsync(int orderId, int orderItemId);
 

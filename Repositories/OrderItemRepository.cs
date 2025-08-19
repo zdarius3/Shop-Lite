@@ -27,23 +27,5 @@ namespace ShopLite.Repositories
                                     .Include(oi => oi.Product)
                                     .FirstOrDefaultAsync(oi => oi.Id == id);
         }
-
-        public async Task AddOrderItemAsync(OrderItem orderItem)
-        {
-            _context.OrderItems.Add(orderItem);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task UpdateOrderItemAsync(OrderItem orderItem)
-        {
-            _context.OrderItems.Update(orderItem);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task DeleteOrderItemAsync(OrderItem orderItem)
-        {
-            _context.OrderItems.Remove(orderItem);
-            await _context.SaveChangesAsync();
-        }
     }
 }
