@@ -7,12 +7,16 @@ namespace ShopLite.Interfaces
     {
         Task<IEnumerable<OrderDTO>> GetAllOrdersAsync();
         Task<OrderDTO?> GetOrderByIdAsync(int id);
-        Task AddOrderAsync(CreateOrderDTO cOrderDTO);
-        Task UpdateOrderAsync(UpdateOrderDTO uOrderDTO);
+        Task<OrderDTO> AddOrderAsync(CreateOrderDTO cOrderDTO);
+        Task<OrderDTO> UpdateOrderAsync(UpdateOrderDTO uOrderDTO);
         Task DeleteOrderAsync(int id);
 
         Task<bool> AddProductToOrderAsync(int orderId, CreateOrderItemDTO orderItemDTO);
-        Task<bool> RemoveProductFromOrderAsync(int productId, int orderId);
+        Task<bool> DeleteProductFromOrderAsync(int productId, int orderId);
+
+        Task<bool> AddOrderItemToOrderAsync(int orderId, CreateOrderItemDTO orderItemDTO);
+        Task<bool> DeleteOrderItemFromOrderAsync(int orderId, int orderItemId);
+
         Task<decimal> CalculateOrderTotalAsync(int orderId);
     }
 }

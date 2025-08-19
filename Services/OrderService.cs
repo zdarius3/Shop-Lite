@@ -59,7 +59,7 @@ namespace ShopLite.Services
             };
         }
 
-        public async Task AddOrderAsync(CreateOrderDTO cOrderDTO)
+        public async Task<OrderDTO> AddOrderAsync(CreateOrderDTO cOrderDTO)
         {
             var customer = await _customerService.GetCustomerByIdAsync(cOrderDTO.CustomerId);
             if (customer == null)
@@ -81,9 +81,24 @@ namespace ShopLite.Services
             };
 
             await _orderRepository.AddOrderAsync(order);
+
+            return new OrderDTO
+            {
+                Id = order.Id,
+                CustomerId = order.CustomerId,
+                OrderDate = order.OrderDate,
+                Status = order.Status.ToString(),
+                OrderItems = order.OrderItems.Select(oi => new OrderItemDTO
+                {
+                    Id = oi.Id,
+                    ProductId = oi.ProductId,
+                    Quantity = oi.Quantity,
+                    UnitPrice = oi.UnitPrice
+                }).ToList(),
+            };
         }
 
-        public async Task UpdateOrderAsync(UpdateOrderDTO uOrderDTO)
+        public async Task<OrderDTO> UpdateOrderAsync(UpdateOrderDTO uOrderDTO)
         {
             var order = await _orderRepository.GetOrderByIdAsync(uOrderDTO.Id);
             if (order == null)
@@ -96,8 +111,22 @@ namespace ShopLite.Services
                 order.Status = Enum.Parse<Status>(uOrderDTO.Status, true);
             }
 
-
             await _orderRepository.UpdateOrderAsync(order);
+
+            return new OrderDTO
+            {
+                Id = order.Id,
+                CustomerId = order.CustomerId,
+                OrderDate = order.OrderDate,
+                Status = order.Status.ToString(),
+                OrderItems = order.OrderItems.Select(oi => new OrderItemDTO
+                {
+                    Id = oi.Id,
+                    ProductId = oi.ProductId,
+                    Quantity = oi.Quantity,
+                    UnitPrice = oi.UnitPrice
+                }).ToList(),
+            };
         }
 
         public async Task DeleteOrderAsync(int id)
@@ -131,7 +160,7 @@ namespace ShopLite.Services
             return true;
         }
 
-        public async Task<bool> RemoveProductFromOrderAsync(int productId, int orderId)
+        public async Task<bool> DeleteProductFromOrderAsync(int productId, int orderId)
         {
             var order = await _orderRepository.GetOrderByIdAsync(orderId);
             if (order == null)
@@ -142,7 +171,47 @@ namespace ShopLite.Services
             var orderItem = order.OrderItems.FirstOrDefault(oi => oi.ProductId == productId);
             if (orderItem == null)
             {
-                return false; //product not found in the order
+                throw new KeyNotFoundException($"Product with ID {productId} not " +
+                    $"found in Order with ID {orderId}'s Order Items.");
+            }
+
+            order.OrderItems.Remove(orderItem);
+            await _orderRepository.UpdateOrderAsync(order);
+            return true;
+        }
+
+        public async Task<bool> AddOrderItemToOrderAsync(int orderId, CreateOrderItemDTO orderItemDTO)
+        {
+            var order = await _orderRepository.GetOrderByIdAsync(orderId);
+            if (order == null)
+            {
+                throw new KeyNotFoundException($"Order with ID {orderId} not found.");
+            }
+
+            var orderItem = new OrderItem
+            {
+                ProductId = orderItemDTO.ProductId,
+                Quantity = orderItemDTO.Quantity,
+                UnitPrice = orderItemDTO.UnitPrice
+            };
+
+            order.OrderItems.Add(orderItem);
+            await _orderRepository.UpdateOrderAsync(order);
+            return true;
+        }
+
+        public async Task<bool> DeleteOrderItemFromOrderAsync(int orderId, int orderItemId)
+        {
+            var order = await _orderRepository.GetOrderByIdAsync(orderId);
+            if (order == null)
+            {
+                throw new KeyNotFoundException($"Order with ID {orderId} not found.");
+            }
+
+            var orderItem = order.OrderItems.FirstOrDefault(oi => oi.Id == orderItemId);
+            if (orderItem == null)
+            {
+                throw new KeyNotFoundException($"OrderItem with ID {orderItemId} not found in Order with ID {orderId}.");
             }
 
             order.OrderItems.Remove(orderItem);
