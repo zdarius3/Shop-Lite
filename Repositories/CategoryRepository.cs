@@ -16,12 +16,17 @@ namespace ShopLite.Repositories
 
         public async Task<IEnumerable<Category>> GetAllCategoriesAsync()
         {
-            return await _context.Categories.ToListAsync();
+            return await _context
+                            .Categories
+                            .Include(c => c.Products)
+                            .ToListAsync();
         }
 
         public async Task<Category?> GetCategoryByIdAsync(int id)
         {
-            return await _context.Categories.FindAsync(id);
+            return await _context.Categories
+                         .Include(c => c.Products)
+                         .FirstOrDefaultAsync(c => c.Id == id);
         }
 
         public async Task AddCategoryAsync(Category category)
@@ -70,7 +75,7 @@ namespace ShopLite.Repositories
             }
             category.Products.Remove(product);
             await _context.SaveChangesAsync();
-            
+
             return true;
         }
     }
