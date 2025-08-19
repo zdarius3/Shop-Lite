@@ -7,10 +7,13 @@ namespace ShopLite.Services
     public class ProductService : IProductService
     {
         private readonly IProductRepository _productRepository;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public ProductService(IProductRepository productRepository)
+        public ProductService(IProductRepository productRepository,
+                ICategoryRepository categoryRepository)
         {
             _productRepository = productRepository;
+            _categoryRepository = categoryRepository;
         }
 
         public async Task<IEnumerable<ProductDTO>> GetAllProductsAsync()
@@ -49,23 +52,28 @@ namespace ShopLite.Services
                 throw new InvalidOperationException($"Product name '{cProductDTO.Name}' already exists.");
             }
 
+            var category = await _categoryRepository.GetCategoryByIdAsync(cProductDTO.CategoryId); 
             var product = new Product
             {
                 Name = cProductDTO.Name,
                 Description = cProductDTO.Description,
                 Stock = cProductDTO.Stock,
                 Price = cProductDTO.Price,
-                CategoryId = cProductDTO.CategoryId
-
+                CategoryId = cProductDTO.CategoryId,
+                Category = category
             };
 
+            await _categoryRepository.AddProductToCategoryAsync(product.CategoryId, product);
             await _productRepository.AddProductAsync(product);
+
             return new ProductDTO
             {
                 Id = product.Id,
                 Name = product.Name,
+                Description = product.Description,
                 Price = product.Price,
-                CategoryId = product.CategoryId
+                CategoryId = product.CategoryId,
+                CategoryName = category.Name
             };
         }
 
@@ -102,12 +110,24 @@ namespace ShopLite.Services
                 product.Price = uProductDTO.Price.Value;
             }
 
+            string oldCategoryName = product.Category.Name;
+            string newCategoryName = "";
             if (uProductDTO.CategoryId.HasValue)
             {
+                //delete from the old category
+                await _categoryRepository.DeleteProductFromCategoryAsync(product.CategoryId, product);
+                var newCategory = await _categoryRepository.GetCategoryByIdAsync(uProductDTO.CategoryId.Value);
+                if (newCategory == null)
+                {
+                    throw new KeyNotFoundException("Category with ID" +
+                       $"{uProductDTO.CategoryId.Value} not found.");
+                }
+
+                //add to the new category
                 product.CategoryId = uProductDTO.CategoryId.Value;
-                //should update the category name as well if needed
-                //product.Category.Name = uProductDTO.CategoryName -> could be this approach
-                //or maybe have a static method in CategoryService to update the name
+                product.Category = newCategory;
+                newCategoryName = newCategory.Name;
+                await _categoryRepository.AddProductToCategoryAsync(newCategory.Id, product);
             }
 
             await _productRepository.UpdateProductAsync(product);
@@ -116,7 +136,8 @@ namespace ShopLite.Services
                 Id = product.Id,
                 Name = product.Name,
                 Price = product.Price,
-                CategoryId = product.CategoryId
+                CategoryId = product.CategoryId,
+                CategoryName = newCategoryName.Equals("") ? oldCategoryName : newCategoryName
             };
         }
 
