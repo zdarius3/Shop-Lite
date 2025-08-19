@@ -19,6 +19,7 @@ namespace ShopLite.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<CategoryDTO>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAllCategories()
         {
             var categories = await _categoryService.GetAllCategoriesAsync();
@@ -26,6 +27,8 @@ namespace ShopLite.Controllers
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(CategoryDTO), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetCategoryById(int id)
         {
             var category = await _categoryService.GetCategoryByIdAsync(id);
@@ -33,6 +36,9 @@ namespace ShopLite.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(typeof(CategoryDTO), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryDTO category)
         {
             if (!ModelState.IsValid)
@@ -46,6 +52,9 @@ namespace ShopLite.Controllers
         }
 
         [HttpPut]
+        [ProducesResponseType(typeof(Category), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdateCategory([FromBody] UpdateCategoryDTO category)
         {
             if (!ModelState.IsValid)
@@ -58,6 +67,8 @@ namespace ShopLite.Controllers
         }
 
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteCategory(int id)
         {
             await _categoryService.DeleteCategoryAsync(id);

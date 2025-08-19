@@ -19,6 +19,8 @@ namespace ShopLite.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<ProductDTO>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetAllProducts()
         {
             var products = await _productService.GetAllProductsAsync();
@@ -26,6 +28,8 @@ namespace ShopLite.Controllers
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(CategoryDTO), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetProductById(int id)
         {
             var product = await _productService.GetProductByIdAsync(id);
@@ -33,6 +37,9 @@ namespace ShopLite.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(typeof(CategoryDTO), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> CreateProduct([FromBody] CreateProductDTO product)
         {
             if (!ModelState.IsValid)
@@ -45,7 +52,10 @@ namespace ShopLite.Controllers
                 new { id = createdProduct.Id }, createdProduct);
         }
 
-        [HttpPut()]
+        [HttpPut]
+        [ProducesResponseType(typeof(Category), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdateProduct([FromBody] UpdateProductDTO product)
         {
             if (!ModelState.IsValid)
@@ -58,6 +68,8 @@ namespace ShopLite.Controllers
         }
 
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteProduct(int id)
         {
             await _productService.DeleteProductAsync(id);
