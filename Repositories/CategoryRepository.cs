@@ -41,5 +41,37 @@ namespace ShopLite.Repositories
             _context.Categories.Remove(category);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<string> GetCategoryNameByIdAsync(int id)
+        {
+            var category = await _context.Categories.FindAsync(id);
+            return category?.Name ?? "Unknown";
+        }
+
+        public async Task<bool> AddProductToCategoryAsync(int catId, Product product)
+        {
+            var category = await _context.Categories.FindAsync(catId);
+            if (category == null)
+            {
+                return false;
+            }
+            category.Products.Add(product);
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<bool> DeleteProductFromCategoryAsync(int catId, Product product)
+        {
+            var category = await _context.Categories.FindAsync(catId);
+            if (category == null)
+            {
+                return false;
+            }
+            category.Products.Remove(product);
+            await _context.SaveChangesAsync();
+            
+            return true;
+        }
     }
 }

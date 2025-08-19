@@ -9,5 +9,9 @@ namespace ShopLite.Interfaces
         Task AddCategoryAsync(Category category);
         Task UpdateCategoryAsync(Category category);
         Task DeleteCategoryAsync(Category category);
+        Task<string> GetCategoryNameByIdAsync(int id);
+
+        Task<bool> AddProductToCategoryAsync(int categoryId, Product product);
+        Task<bool> DeleteProductFromCategoryAsync(int categoryId, Product product);
     }
 }
