@@ -53,7 +53,8 @@ namespace ShopLite.Services
                         Id = p.Id,
                         Name = p.Name,
                         Price = p.Price,
-                        CategoryId = p.CategoryId
+                        CategoryId = p.CategoryId,
+                        IsDeleted = p.IsDeleted
                     }).ToList() ?? new List<ProductDTO>()
             };
         }
@@ -117,7 +118,7 @@ namespace ShopLite.Services
             {
                 throw new KeyNotFoundException($"Category with ID {id} not found.");
             }
-            
+
             if (category.Products.Any())
             {
                 throw new InvalidOperationException("Cannot delete category that still has products.");
@@ -146,7 +147,8 @@ namespace ShopLite.Services
                 Id = p.Id,
                 Name = p.Name,
                 Price = p.Price,
-                CategoryId = p.CategoryId
+                CategoryId = p.CategoryId,
+                IsDeleted = p.IsDeleted
             }) ?? new List<ProductDTO>();
         }
         
