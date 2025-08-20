@@ -117,6 +117,11 @@ namespace ShopLite.Services
             {
                 throw new KeyNotFoundException($"Category with ID {id} not found.");
             }
+            
+            if (category.Products.Any())
+            {
+                throw new InvalidOperationException("Cannot delete category that still has products.");
+            }
 
             await _categoryRepo.DeleteCategoryAsync(category);
         }
