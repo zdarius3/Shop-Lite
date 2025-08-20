@@ -35,6 +35,7 @@ namespace ShopLite.Services
                         {
                             Id = oi.Id,
                             ProductId = oi.ProductId,
+                            OrderId = oi.OrderId,
                             ProductName = oi.Product.Name,
                             Quantity = oi.Quantity,
                             UnitPrice = oi.UnitPrice
@@ -69,6 +70,7 @@ namespace ShopLite.Services
                         OrderItems = o.OrderItems.Select(oi => new OrderItemDTO
                         {
                             Id = oi.Id,
+                            OrderId = oi.OrderId,
                             ProductId = oi.ProductId,
                             ProductName = oi.Product.Name,
                             Quantity = oi.Quantity,

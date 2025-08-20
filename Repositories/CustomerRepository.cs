@@ -17,14 +17,19 @@ namespace ShopLite.Repositories
         public async Task<IEnumerable<Customer>> GetAllCustomersAsync()
         {
             return await _context.Customers
-                            .Include(c => c.Orders)
-                                .ThenInclude(o => o.OrderItems)
-                            .ToListAsync();
+                        .Include(c => c.Orders)
+                            .ThenInclude(o => o.OrderItems)
+                                .ThenInclude(oi => oi.Product)
+                        .ToListAsync();
         }
 
         public async Task<Customer?> GetCustomerByIdAsync(int id)
         {
-            return await _context.Customers.FindAsync(id);
+            return await _context.Customers
+                        .Include(c => c.Orders)
+                            .ThenInclude(o => o.OrderItems)
+                                .ThenInclude(oi => oi.Product)
+                        .FirstOrDefaultAsync(c => c.Id == id);
         }
 
         public async Task AddCustomerAsync(Customer customer)
