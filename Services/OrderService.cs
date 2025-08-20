@@ -27,15 +27,19 @@ namespace ShopLite.Services
             {
                 Id = o.Id,
                 CustomerId = o.CustomerId,
+                CustomerName = o.Customer.FullName,
                 OrderDate = o.OrderDate,
                 Status = o.Status.ToString(),
                 OrderItems = o.OrderItems.Select(oi => new OrderItemDTO
                 {
                     Id = oi.Id,
+                    OrderId = oi.OrderId,
                     ProductId = oi.ProductId,
+                    ProductName = oi.Product.Name,
                     Quantity = oi.Quantity,
                     UnitPrice = oi.UnitPrice
                 }).ToList(),
+                TotalAmount = o.OrderItems.Sum(oi => oi.Quantity * oi.UnitPrice)
             });
         }
 
@@ -57,10 +61,13 @@ namespace ShopLite.Services
                 OrderItems = order.OrderItems.Select(oi => new OrderItemDTO
                 {
                     Id = oi.Id,
+                    OrderId = oi.OrderId,
                     ProductId = oi.ProductId,
+                    ProductName = oi.Product.Name,
                     Quantity = oi.Quantity,
                     UnitPrice = oi.UnitPrice
                 }).ToList(),
+                TotalAmount = order.OrderItems.Sum(oi => oi.Quantity * oi.UnitPrice)
             };
         }
 
@@ -98,16 +105,19 @@ namespace ShopLite.Services
             {
                 Id = order.Id,
                 CustomerId = order.CustomerId,
+                CustomerName = order.Customer.FullName,
                 OrderDate = order.OrderDate,
                 Status = order.Status.ToString(),
                 OrderItems = order.OrderItems.Select(oi => new OrderItemDTO
                 {
                     Id = oi.Id,
                     ProductId = oi.ProductId,
+                    ProductName = oi.Product.Name,
                     Quantity = oi.Quantity,
                     OrderId = oi.OrderId,
                     UnitPrice = oi.UnitPrice
                 }).ToList(),
+                TotalAmount = order.OrderItems.Sum(oi => oi.Quantity * oi.UnitPrice)
             };
         }
 
@@ -130,16 +140,19 @@ namespace ShopLite.Services
             {
                 Id = order.Id,
                 CustomerId = order.CustomerId,
+                CustomerName = order.Customer.FullName,
                 OrderDate = order.OrderDate,
                 Status = order.Status.ToString(),
                 OrderItems = order.OrderItems.Select(oi => new OrderItemDTO
                 {
                     Id = oi.Id,
                     ProductId = oi.ProductId,
+                    ProductName = oi.Product.Name,
                     Quantity = oi.Quantity,
                     OrderId = oi.OrderId,
                     UnitPrice = oi.UnitPrice
                 }).ToList(),
+                TotalAmount = order.OrderItems.Sum(oi => oi.Quantity * oi.UnitPrice)
             };
         }
 
@@ -191,7 +204,7 @@ namespace ShopLite.Services
                 Id = order.Id,
                 OrderDate = order.OrderDate,
                 Status = order.Status.ToString(),
-                OrderItems = order.OrderItems    
+                OrderItems = order.OrderItems
                             .Select(oi => new OrderItemDTO
                             {
                                 Id = oi.Id,
@@ -200,7 +213,8 @@ namespace ShopLite.Services
                                 ProductName = oi.Product.Name,
                                 Quantity = oi.Quantity,
                                 UnitPrice = oi.UnitPrice
-                            }).ToList()
+                            }).ToList(),
+                TotalAmount = order.OrderItems.Sum(oi => oi.Quantity * oi.UnitPrice)
             };
         }
 
@@ -237,7 +251,8 @@ namespace ShopLite.Services
                                 ProductName = oi.Product.Name,
                                 Quantity = oi.Quantity,
                                 UnitPrice = oi.UnitPrice
-                            }).ToList()
+                            }).ToList(),
+                TotalAmount = order.OrderItems.Sum(oi => oi.Quantity * oi.UnitPrice)
             };
         }
         
