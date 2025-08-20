@@ -9,11 +9,15 @@ namespace ShopLite.Services
     {
         private readonly IOrderRepository _orderRepository;
         private readonly ICustomerService _customerService;
+        private readonly IProductService _productService;
 
-        public OrderService(IOrderRepository orderRepository, ICustomerService customerService)
+        public OrderService(IOrderRepository orderRepository,
+                            ICustomerService customerService,
+                            IProductService productService)
         {
             _orderRepository = orderRepository;
             _customerService = customerService;
+            _productService = productService;
         }
 
         public async Task<IEnumerable<OrderDTO>> GetAllOrdersAsync()
@@ -67,6 +71,12 @@ namespace ShopLite.Services
                 throw new KeyNotFoundException($"Customer with ID {cOrderDTO.CustomerId} not found.");
             }
 
+            var product = await _productService.GetProductByIdAsync(cOrderDTO.OrderItems.First().ProductId);
+            if (product == null)
+            {
+                throw new KeyNotFoundException($"Product with ID {cOrderDTO.OrderItems.First().ProductId} not found.");
+            }
+
             var order = new Order
             {
                 CustomerId = cOrderDTO.CustomerId,
@@ -76,7 +86,7 @@ namespace ShopLite.Services
                 {
                     ProductId = oi.ProductId,
                     Quantity = oi.Quantity,
-                    UnitPrice = oi.UnitPrice
+                    UnitPrice = product.Price
                 }).ToList()
             };
 
@@ -136,6 +146,10 @@ namespace ShopLite.Services
             {
                 throw new KeyNotFoundException($"Order with ID {id} not found.");
             }
+            if (order.OrderItems.Any())
+            {
+                throw new InvalidOperationException("Cannot delete an order that has order items.");
+            }
 
             await _orderRepository.DeleteOrderAsync(order);
         }
@@ -148,13 +162,19 @@ namespace ShopLite.Services
                 throw new KeyNotFoundException($"Order with ID {orderId} not found.");
             }
 
+            var product = await _productService.GetProductByIdAsync(orderItemDTO.ProductId);
+            if (product == null)
+            {
+                throw new KeyNotFoundException($"Product with ID {orderItemDTO.ProductId} not found.");
+            }
+
             var orderItem = new OrderItem
             {
                 OrderId = orderId,
                 Order = order,
                 ProductId = orderItemDTO.ProductId,
                 Quantity = orderItemDTO.Quantity,
-                UnitPrice = orderItemDTO.UnitPrice
+                UnitPrice = product.Price
             };
 
             order.OrderItems.Add(orderItem);
