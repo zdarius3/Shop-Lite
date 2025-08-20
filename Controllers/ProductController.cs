@@ -18,7 +18,7 @@ namespace ShopLite.Controllers
             _productService = productService;
         }
 
-        [HttpGet("/all")]
+        [HttpGet("all")]
         [ProducesResponseType(typeof(IEnumerable<ProductDTO>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAllProducts()
         {
@@ -26,7 +26,7 @@ namespace ShopLite.Controllers
             return Ok(products);
         }
 
-        [HttpGet("/non-deleted")]
+        [HttpGet("non-deleted")]
         [ProducesResponseType(typeof(IEnumerable<ProductDTO>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetNonDeletedProducts()
         {

@@ -19,7 +19,7 @@ namespace ShopLite.Repositories
             return await _context
                             .Products
                             .Include(p => p.Category)
-                            .IgnoreQueryFilters()
+                            .Where(p => !p.IsDeleted)
                             .ToListAsync();
         }
 
@@ -51,6 +51,7 @@ namespace ShopLite.Repositories
         public async Task SoftDeleteProductAsync(Product product)
         {
             product.IsDeleted = true;
+            _context.Products.Update(product);
             await _context.SaveChangesAsync();
         }
     }

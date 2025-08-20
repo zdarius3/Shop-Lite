@@ -27,7 +27,8 @@ namespace ShopLite.Services
                 Price = p.Price,
                 Stock = p.Stock,
                 CategoryId = p.CategoryId,
-                CategoryName = p.Category.Name
+                CategoryName = p.Category.Name,
+                IsDeleted = p.IsDeleted
             });
         }
 
@@ -42,7 +43,8 @@ namespace ShopLite.Services
                 Price = p.Price,
                 Stock = p.Stock,
                 CategoryId = p.CategoryId,
-                CategoryName = p.Category.Name
+                CategoryName = p.Category.Name,
+                IsDeleted = p.IsDeleted
             });
         }
 
