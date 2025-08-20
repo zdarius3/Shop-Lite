@@ -23,6 +23,8 @@ namespace ShopLite.Services
             {
                 Id = oi.Id,
                 ProductId = oi.ProductId,
+                ProductName = oi.Product.Name,
+                OrderId = oi.OrderId,
                 Quantity = oi.Quantity,
                 UnitPrice = oi.UnitPrice
             });
@@ -39,6 +41,8 @@ namespace ShopLite.Services
             {
                 Id = orderItem.Id,
                 ProductId = orderItem.ProductId,
+                OrderId = orderItem.OrderId,
+                ProductName = orderItem.Product.Name,
                 Quantity = orderItem.Quantity,
                 UnitPrice = orderItem.UnitPrice
             };
