@@ -31,9 +31,6 @@ namespace ShopLite.Entities
         [ForeignKey(nameof(CategoryId))]
         public Category Category { get; set; } = null!;
 
-        [JsonPropertyName("image_url")]
-        public string? ImageUrl { get; set; }
-
-        public ICollection<OrderItem>? OrderItems { get; set; }
+        public bool IsDeleted { get; set; } = false;
     }
 }

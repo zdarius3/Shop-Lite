@@ -29,7 +29,7 @@ namespace ShopLite.Data
             //define the relation between OrderItem and Product 
             modelBuilder.Entity<OrderItem>()
                 .HasOne(oi => oi.Product)
-                .WithMany(p => p.OrderItems)
+                .WithMany()
                 .HasForeignKey(oi => oi.ProductId)
                 .OnDelete(DeleteBehavior.Restrict); //prevents deleting a Product if it still has OrderItems
 
