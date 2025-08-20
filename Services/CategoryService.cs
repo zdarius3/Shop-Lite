@@ -30,7 +30,8 @@ namespace ShopLite.Services
                         Stock = p.Stock,
                         Price = p.Price,
                         CategoryId = p.CategoryId,
-                        CategoryName = p.Category.Name
+                        CategoryName = p.Category.Name,
+                        IsDeleted = p.IsDeleted
                     }).ToList() ?? new List<ProductDTO>()
             });
         }
