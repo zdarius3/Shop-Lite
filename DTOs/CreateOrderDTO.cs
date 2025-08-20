@@ -8,7 +8,7 @@ namespace ShopLite.DTOs
         [Required]
         public int CustomerId { get; init; }
 
-        public List<CreateOrderItemDTO> OrderItems = new List<CreateOrderItemDTO>();
+        public List<CreateOrderItemDTO> OrderItems { get; init; } = new List<CreateOrderItemDTO>();
 
     }
 }

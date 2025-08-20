@@ -75,7 +75,7 @@ namespace ShopLite.Controllers
             return NoContent();
         }
 
-        [HttpPut("/AddOrderItem")]
+        [HttpPut("AddOrderItem")]
         [ProducesResponseType(typeof(OrderDTO), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -86,7 +86,7 @@ namespace ShopLite.Controllers
             return Ok(updatedOrder);
         }
 
-        [HttpPut("/DeleteOrderItem")]
+        [HttpPut("DeleteOrderItem")]
         [ProducesResponseType(typeof(OrderDTO), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
