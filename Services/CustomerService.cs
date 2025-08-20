@@ -22,7 +22,25 @@ namespace ShopLite.Services
                 Id = c.Id,
                 FullName = c.FullName,
                 Address = c.Address,
-                Email = c.Email
+                Email = c.Email,
+                Orders = c.Orders?
+                    .Select(o => new OrderDTO
+                    {
+                        Id = o.Id,
+                        CustomerId = o.CustomerId,
+                        CustomerName = o.Customer.FullName,
+                        OrderDate = o.OrderDate,
+                        Status = o.Status.ToString(),
+                        OrderItems = o.OrderItems.Select(oi => new OrderItemDTO
+                        {
+                            Id = oi.Id,
+                            ProductId = oi.ProductId,
+                            ProductName = oi.Product.Name,
+                            Quantity = oi.Quantity,
+                            UnitPrice = oi.UnitPrice
+                        }).ToList(),
+                        TotalAmount = CalculateTotalAmount(new List<Order> { o })
+                    }).ToList() ?? new List<OrderDTO>()
             });
         }
 
@@ -39,7 +57,25 @@ namespace ShopLite.Services
                 Id = customer.Id,
                 FullName = customer.FullName,
                 Address = customer.Address,
-                Email = customer.Email
+                Email = customer.Email,
+                Orders = customer.Orders?
+                    .Select(o => new OrderDTO
+                    {
+                        Id = o.Id,
+                        CustomerId = o.CustomerId,
+                        CustomerName = o.Customer.FullName,
+                        OrderDate = o.OrderDate,
+                        Status = o.Status.ToString(),
+                        OrderItems = o.OrderItems.Select(oi => new OrderItemDTO
+                        {
+                            Id = oi.Id,
+                            ProductId = oi.ProductId,
+                            ProductName = oi.Product.Name,
+                            Quantity = oi.Quantity,
+                            UnitPrice = oi.UnitPrice
+                        }).ToList(),
+                        TotalAmount = CalculateTotalAmount(new List<Order> { o })
+                    }).ToList() ?? new List<OrderDTO>()
             };
         }
 
@@ -58,7 +94,25 @@ namespace ShopLite.Services
                 Id = customer.Id,
                 FullName = customer.FullName,
                 Address = customer.Address,
-                Email = customer.Email
+                Email = customer.Email,
+                Orders = customer.Orders?
+                    .Select(o => new OrderDTO
+                    {
+                        Id = o.Id,
+                        CustomerId = o.CustomerId,
+                        CustomerName = o.Customer.FullName,
+                        OrderDate = o.OrderDate,
+                        Status = o.Status.ToString(),
+                        OrderItems = o.OrderItems.Select(oi => new OrderItemDTO
+                        {
+                            Id = oi.Id,
+                            ProductId = oi.ProductId,
+                            ProductName = oi.Product.Name,
+                            Quantity = oi.Quantity,
+                            UnitPrice = oi.UnitPrice
+                        }).ToList(),
+                        TotalAmount = CalculateTotalAmount(new List<Order> { o })
+                    }).ToList() ?? new List<OrderDTO>()
             };
         }
 
@@ -89,7 +143,25 @@ namespace ShopLite.Services
                 Id = customer.Id,
                 FullName = customer.FullName,
                 Address = customer.Address,
-                Email = customer.Email
+                Email = customer.Email,
+                Orders = customer.Orders?
+                    .Select(o => new OrderDTO
+                    {
+                        Id = o.Id,
+                        CustomerId = o.CustomerId,
+                        CustomerName = o.Customer.FullName,
+                        OrderDate = o.OrderDate,
+                        Status = o.Status.ToString(),
+                        OrderItems = o.OrderItems.Select(oi => new OrderItemDTO
+                        {
+                            Id = oi.Id,
+                            ProductId = oi.ProductId,
+                            ProductName = oi.Product.Name,
+                            Quantity = oi.Quantity,
+                            UnitPrice = oi.UnitPrice
+                        }).ToList(),
+                        TotalAmount = CalculateTotalAmount(new List<Order> { o })
+                    }).ToList() ?? new List<OrderDTO>()
             };
         }
 
