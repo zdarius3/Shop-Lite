@@ -35,6 +35,15 @@ namespace ShopLite.Controllers
             return Ok(category);
         }
 
+        [HttpGet("{id}/products")]
+        [ProducesResponseType(typeof(CategoryDTO), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetProductsByCategoryId(int id)
+        {
+            var products = await _categoryService.GetProductsByCategoryIdAsync(id);
+            return Ok(products);
+        }
+
         [HttpPost]
         [ProducesResponseType(typeof(CategoryDTO), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
