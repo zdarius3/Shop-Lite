@@ -31,6 +31,21 @@ namespace ShopLite.Services
             });
         }
 
+        public async Task<IEnumerable<ProductDTO>> GetNonDeletedProductsAsync()
+        {
+            var products = await _productRepository.GetNonDeletedProductsAsync();
+            return products.Select(p => new ProductDTO
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Description = p.Description,
+                Price = p.Price,
+                Stock = p.Stock,
+                CategoryId = p.CategoryId,
+                CategoryName = p.Category.Name
+            });
+        }
+
         public async Task<ProductDTO?> GetProductByIdAsync(int id)
         {
             var product = await _productRepository.GetProductByIdAsync(id);
@@ -152,7 +167,7 @@ namespace ShopLite.Services
             };
         }
 
-        public async Task DeleteProductAsync(int id)
+        public async Task SoftDeleteProductAsync(int id)
         {
             var product = await _productRepository.GetProductByIdAsync(id);
             if (product == null)
@@ -160,7 +175,7 @@ namespace ShopLite.Services
                 throw new KeyNotFoundException($"Product with ID {id} not found.");
             }
 
-            await _productRepository.DeleteProductAsync(product);
+            await _productRepository.SoftDeleteProductAsync(product);
         }
 
 

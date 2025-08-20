@@ -18,14 +18,23 @@ namespace ShopLite.Controllers
             _productService = productService;
         }
 
-        [HttpGet]
+        [HttpGet("/all")]
         [ProducesResponseType(typeof(IEnumerable<ProductDTO>), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetAllProducts()
         {
             var products = await _productService.GetAllProductsAsync();
             return Ok(products);
         }
+
+        [HttpGet("/non-deleted")]
+        [ProducesResponseType(typeof(IEnumerable<ProductDTO>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetNonDeletedProducts()
+        {
+            var products = await _productService.GetNonDeletedProductsAsync();
+            return Ok(products);
+        }
+
+
 
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(CategoryDTO), StatusCodes.Status200OK)]
@@ -72,7 +81,7 @@ namespace ShopLite.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteProduct(int id)
         {
-            await _productService.DeleteProductAsync(id);
+            await _productService.SoftDeleteProductAsync(id);
             return NoContent();
         }
     }

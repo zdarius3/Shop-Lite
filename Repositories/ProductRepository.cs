@@ -14,6 +14,15 @@ namespace ShopLite.Repositories
             _context = context;
         }
 
+        public async Task<IEnumerable<Product>> GetNonDeletedProductsAsync()
+        {
+            return await _context
+                            .Products
+                            .Include(p => p.Category)
+                            .IgnoreQueryFilters()
+                            .ToListAsync();
+        }
+
         public async Task<IEnumerable<Product>> GetAllProductsAsync()
         {
             return await _context
@@ -39,9 +48,9 @@ namespace ShopLite.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteProductAsync(Product product)
+        public async Task SoftDeleteProductAsync(Product product)
         {
-            _context.Products.Remove(product);
+            product.IsDeleted = true;
             await _context.SaveChangesAsync();
         }
     }
