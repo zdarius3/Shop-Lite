@@ -150,8 +150,10 @@ namespace ShopLite.Services
             {
                 Id = p.Id,
                 Name = p.Name,
+                Description = p.Description,
                 Price = p.Price,
                 CategoryId = p.CategoryId,
+                CategoryName = category.Name,
                 IsDeleted = p.IsDeleted
             }) ?? new List<ProductDTO>();
         }
