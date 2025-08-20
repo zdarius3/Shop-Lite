@@ -21,6 +21,6 @@ namespace ShopLite.Entities
         [Required]
         public string Address { get; set; } = null!;
 
-        public List<Order>? Orders { get; set; } = new List<Order>();
+        public List<Order> Orders { get; set; } = new List<Order>();
     }
 }
