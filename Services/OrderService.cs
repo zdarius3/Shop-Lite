@@ -140,7 +140,7 @@ namespace ShopLite.Services
             await _orderRepository.DeleteOrderAsync(order);
         }
 
-        public async Task<bool> AddOrderItemToOrderAsync(int orderId, CreateOrderItemDTO orderItemDTO)
+        public async Task<OrderDTO> AddOrderItemToOrderAsync(int orderId, CreateOrderItemDTO orderItemDTO)
         {
             var order = await _orderRepository.GetOrderByIdAsync(orderId);
             if (order == null)
@@ -159,10 +159,28 @@ namespace ShopLite.Services
 
             order.OrderItems.Add(orderItem);
             await _orderRepository.UpdateOrderAsync(order);
-            return true;
+
+            return new OrderDTO
+            {
+                CustomerId = order.CustomerId,
+                CustomerName = order.Customer.FullName,
+                Id = order.Id,
+                OrderDate = order.OrderDate,
+                Status = order.Status.ToString(),
+                OrderItems = order.OrderItems    
+                            .Select(oi => new OrderItemDTO
+                            {
+                                Id = oi.Id,
+                                OrderId = oi.OrderId,
+                                ProductId = oi.ProductId,
+                                ProductName = oi.Product.Name,
+                                Quantity = oi.Quantity,
+                                UnitPrice = oi.UnitPrice
+                            }).ToList()
+            };
         }
 
-        public async Task<bool> DeleteOrderItemFromOrderAsync(int orderId, int orderItemId)
+        public async Task<OrderDTO> DeleteOrderItemFromOrderAsync(int orderId, int orderItemId)
         {
             var order = await _orderRepository.GetOrderByIdAsync(orderId);
             if (order == null)
@@ -178,7 +196,25 @@ namespace ShopLite.Services
 
             order.OrderItems.Remove(orderItem);
             await _orderRepository.UpdateOrderAsync(order);
-            return true;
+            
+            return new OrderDTO
+            {
+                CustomerId = order.CustomerId,
+                CustomerName = order.Customer.FullName,
+                Id = order.Id,
+                OrderDate = order.OrderDate,
+                Status = order.Status.ToString(),
+                OrderItems = order.OrderItems
+                            .Select(oi => new OrderItemDTO
+                            {
+                                Id = oi.Id,
+                                OrderId = oi.OrderId,
+                                ProductId = oi.ProductId,
+                                ProductName = oi.Product.Name,
+                                Quantity = oi.Quantity,
+                                UnitPrice = oi.UnitPrice
+                            }).ToList()
+            };
         }
         
         public async Task<decimal> CalculateOrderTotalAsync(int orderId)
